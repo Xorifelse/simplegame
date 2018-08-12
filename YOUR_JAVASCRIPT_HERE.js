@@ -1,3 +1,14 @@
+// Simple array reorder
+Array.prototype.clean = function(deleteValue) {
+    for (var i = 0; i < this.length; i++) {
+      if (this[i] == deleteValue) {         
+        this.splice(i, 1);
+        i--;
+      }
+    }
+    return this;
+};
+
 // Write your JS here
 var hero = {
     name: '',
@@ -8,7 +19,7 @@ var hero = {
     weapon: {
         type: 'sword',
         damage: 2,
-        img: './img/sword.jpg'
+        img: './img/sword.png'
     }
 }
 
@@ -29,10 +40,12 @@ const equipWeapon = (h) => {
 }
 
 const equipWeaponInventory = (item) => {
+
     // remove item from inventory
     for(let i in hero.inventory){
         if(hero.inventory[i].type == item.type){
             hero.inventory[i] = null
+            hero.inventory.clean(undefined)
         }
     }
 
@@ -72,7 +85,10 @@ const displayStats = () => {
     var tmp = ''
     let inv = document.getElementById('inventory')
     for(let item of hero.inventory){
-        tmp += `<img src="${item.img}" alt="${item.type}" data-damage="${item.damage}" onclick="equipWeaponInventory(${item})">`
+        if(item != null){
+            tmp += `<li><img src="${item.img}" alt="${item.type}" data-damage="${item.damage}" onclick="equipWeaponInventory({type: '${item.type}', damage: ${item.damage}, img: '${item.img}'})"></li>`
+        }
+        
     }
     inv.innerHTML = tmp
     
@@ -81,4 +97,4 @@ const displayStats = () => {
 // update every second
 setInterval(() => {
     displayStats()
-}, 1000)
+}, 500)
