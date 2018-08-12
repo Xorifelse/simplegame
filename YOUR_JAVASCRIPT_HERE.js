@@ -15,8 +15,8 @@ const rest = (obj) => {
     return obj
 }
 
-const pickUpItem = () => {
-
+const pickUpItem = (hero, item) => {
+    hero.inventory.push(item)
 }
 
 const equipWeapon = () => {
