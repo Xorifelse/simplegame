@@ -17,6 +17,7 @@ var hero = {
     health: 10,
     maxHealth: 10,
     gold: 0,
+    level: 1,
     weapon: {
         type: 'sword',
         damage: 2,
@@ -92,6 +93,8 @@ const displayStats = () => {
     wn.innerHTML = hero.weapon.type
     wd.innerHTML = `+${hero.weapon.damage}`
 
+    document.getElementById('hero_level').innerHTML = hero.level
+
     // hero level
 
 
@@ -100,13 +103,11 @@ const displayStats = () => {
     */
 
     // update list of intenvory
+    // Feeling lazy, not the properway to do it.
     var tmp = ''
     let inv = document.getElementById('inventory')
     for(let item of hero.inventory){
-        if(item != null){
-            tmp += `<li><img src="${item.img}" alt="${item.type}" data-damage="${item.damage}" onclick="equipWeaponInventory({type: '${item.type}', damage: ${item.damage}, img: '${item.img}'})"></li>`
-        }
-        
+        tmp += `<li><img src="${item.img}" alt="${item.type}" data-damage="${item.damage}" onclick="equipWeaponInventory({type: '${item.type}', damage: ${item.damage}, img: '${item.img}'})"></li>`
     }
     inv.innerHTML = tmp
     
@@ -142,10 +143,25 @@ const startGame = () => {
         { name: 'orgre', hp: 30, mindmg: 0, maxdmg: 7, reward: 7 }
     ]
     var scenario = [
+        'You walked into a forest and came accross an enemy'
     ]
 
-    write('a')
-    write('b')
+    // check every 250ms until the hero is dead
+
+    var mainloop = () => {
+        if(hero.health > 0){
+            write(`You're still alive!`)
+
+        } else {
+            clearInterval(timer)
+        }
+    }
+
+    // Game over
+
+    document.getElementsByTagName('body').innerHTML = '<img src="./img/gameover.jpg" height="100%" width="100%">'
+    var timer = setInterval(mainloop, 250)
+
 }
 
 // update every second
