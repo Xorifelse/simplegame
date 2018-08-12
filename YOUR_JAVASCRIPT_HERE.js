@@ -1,1 +1,11 @@
 // Write your JS here
+var hero = {
+    name: '',
+    heroic: true,
+    inventory: [],
+    health: 10,
+    weapon: {
+        type: 'sword',
+        damage: 2
+    }
+}
