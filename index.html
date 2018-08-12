@@ -9,10 +9,20 @@
 
 
   <!-- YOUR HTML HERE -->
-  <img id="inn" src="./img/inn.jpg" onclick="rest(hero)"> 
-  <img id="dagger" src="./img/dagger.jpg" onclick="pickUpItem(hero, {type: 'dagger', damage: 2})"> 
-  <img id="bag" src="./img/inventory.png" onclick="equipWeapon(hero)">
+  <h1>Hero</h1>
+  <ul>
+    <li>Name: <span id="hero_name"><input type="button" onclick="hero.name = window.prompt('Enter your hero name', 'Johan')" value="Set hero Name"></span></li>
+    <li><progress id="hero_health" value="5" max="10"></progress></li>
+  </ul>
+  
+  <div>
+    <img id="inn" src="./img/inn.jpg" onclick="rest(hero)"> 
+    <img id="dagger" src="./img/dagger.jpg" onclick="pickUpItem(hero, {type: 'dagger', damage: 2})"> 
+    <img id="bag" src="./img/inventory.png" onclick="equipWeapon(hero)">
+  </div>
+
   <ul id="inventory">
+
   </ul>
 
 
