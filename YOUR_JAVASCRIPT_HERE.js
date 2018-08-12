@@ -147,19 +147,17 @@ const startGame = () => {
     ]
 
     // check every 250ms until the hero is dead
-
     var mainloop = () => {
         if(hero.health > 0){
             write(`You're still alive!`)
 
         } else {
+            // Game over
             clearInterval(timer)
+            document.getElementsByTagName('body')[0].innerHTML = '<img id="gameover" src="./img/gameover.jpg"">'
         }
     }
-
-    // Game over
-
-    document.getElementsByTagName('body').innerHTML = '<img src="./img/gameover.jpg" height="100%" width="100%">'
+    
     var timer = setInterval(mainloop, 250)
 
 }
