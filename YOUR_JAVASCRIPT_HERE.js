@@ -81,7 +81,12 @@ const rest = (obj) => {
 }
 
 const pickUpItem = (h, item) => {
-    h.inventory.push(item)
+    getElm('pickup').innerHTML = ''
+    if('type' in h){ // workaround mocha
+        hero.inventory.push(h)
+    } else {
+        hero.inventory.push(item)
+    }
 }
 
 const equipWeapon = (h) => {
@@ -139,7 +144,7 @@ const displayStats = () => {
 
     // hero weapon
     let wn = getElm('hero_weapon_name').innerHTML = hero.weapon.type
-    let wd = getElm('hero_weapon_damage').innerHTML = `+${hero.weapon.damage} + ${hero.level}`
+    let wd = getElm('hero_weapon_damage').innerHTML = hero.weapon.damage + ' + ' + getHeroLevel()
 
     // hero level
     getElm('hero_level').innerHTML = getHeroLevel()
@@ -168,16 +173,14 @@ const write = (text) => {
 var inBattle = false
 
 const newEncounter = () => {
+    getElm('pickup').innerHTML = ''
     if(!inBattle){
         inBattle = true
         enemy = monsters.random()
         write(`You encountered a ${enemy.name}! What will you do?`)
     } else {
         write(`You walked away and the enemy attacked you!`)
-
-        let i = getRandomInt(enemy.mindmg, enemy.maxdmg)
-        write(`You took ${i} damage`)
-        hero.health -= i 
+        counterAttack()
     }
 }
 
@@ -201,18 +204,17 @@ const attack = () => {
             write(`You killed the ${enemy.name}!`)
             inBattle = false
             // reward kill
-            hero.xp += enemy.reward * 10
-            hero.maxHealth = getHeroLevel() + 10
+            hero.xp += enemy.reward * 35
+            hero.maxHealth = getHeroLevel() + 3
             if(getRandomInt(0, 10) >= enemy.reward){
                 let e = getElm('pickup')
-                let itm = item.random()
-                e.innerHTML += `<li><img src="${itm.img}" alt="${itm.type}" data-damage="${itm.damage}" onclick="pickUpItem({type: '${itm.type}', damage: ${itm.damage}, img: '${itm.img}'})"></li>`
+                let itm = items.random()
+                e.innerHTML += `<li>${itm.type}</li><li><img src="${itm.img}" alt="${itm.type}" data-damage="${itm.damage}" onclick="pickUpItem({type: '${itm.type}', damage: ${itm.damage}, img: '${itm.img}'})"></li>`
             } else {
                 if(getRandomInt(0, 1)){
                     hero.gold += getRandomInt(0, enemy.reward * 2)
                 } else {
                     hero.gold += getRandomInt(0, enemy.reward)
-                    // found gold
                 }
             }
         }
@@ -226,7 +228,7 @@ const run = () => {
     } else {
         if(getRandomInt(0,5) < 2){
             write('You were not fast enough and and the enemy attacked you!')
-            hero.health -= getRandomInt(enemy.mindmg, enemy.maxdmg)
+            counterAttack()
         } else {
             write('You got away safely')
             inBattle = false
