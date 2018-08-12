@@ -1,3 +1,9 @@
+# Beginner Bootcamp Homework Redo
+Because I needed to complete the project within 8 hours and I wanted to add way more stuff to it I wanted to show that I can do the bare assignment easily.
+
+Committed from the start of the project
+
+
 # Beginner Bootcamp Homework
 
 Hello beginner bootcampers. Here is your first formal homework  assignment!
@@ -10,7 +16,6 @@ Don't discuss the homework in slack
 - Download the starter files
 - Make a local git repo and use it to track your work
 - When you're done add a remote and push to your github
-- **Send the link to your repo to teachers@codaisseur.com before Saturday 20:00**
 
 Expectations:
 - I expect you give this homework assignment your best shot.
