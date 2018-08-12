@@ -27,6 +27,7 @@ var hero = {
     maxHealth: 10,
     gold: 0,
     level: 1,
+    xp: 86,
     weapon: {
         type: 'sword',
         damage: 2,
@@ -62,11 +63,16 @@ var monsters = [
 ]
 
 const rest = (obj) => {
-    obj.health = obj.maxHealth
-    if(typeof obj =='undefined'){ // workaround on mocha dependancy
-        hero.health = hero.maxHealth
+    if(!inBattle){
+        obj.health = obj.maxHealth
+        if(typeof obj =='undefined'){ // workaround on mocha dependancy
+            hero.health = hero.maxHealth
+        }
+        write(`You've restored your HP to ${hero.maxHealth}`)
+    } else {
+        write('cant rest while in battle!')
     }
-    write(`You've restored your HP to ${hero.maxHealth}`)
+
     return obj
 }
 
@@ -106,6 +112,10 @@ const equipWeaponInventory = (item) => {
     hero.weapon = item
 }
 
+const getHeroLevel = () => {
+    return Math.floor(Math.log(hero.xp/50+1,2))
+}
+
 const displayStats = () => {
     let health = document.getElementById('hero_health')
     health.setAttribute('value', hero.health)
@@ -129,10 +139,10 @@ const displayStats = () => {
     wn.innerHTML = hero.weapon.type
     wd.innerHTML = `+${hero.weapon.damage}`
 
-    document.getElementById('hero_level').innerHTML = hero.level
+    //document.getElementById('hero_level').innerHTML = hero.level
 
     // hero level
-
+    document.getElementById('hero_level').innerHTML = getHeroLevel()
 
     /*
         Update inventory
@@ -161,7 +171,7 @@ const newEncounter = () => {
     if(!inBattle){
         inBattle = true
         enemy = monsters.random()
-        write(`You encountered a ${enemy.name}!`)
+        write(`You encountered a ${enemy.name}! What will you do?`)
     } else {
         write(`You walked away and the enemy attacked you!`)
 
@@ -171,17 +181,39 @@ const newEncounter = () => {
     }
 }
 
+const counterAttack = () => {
+    let i = getRandomInt(enemy.mindmg, enemy.maxdmg)
+    write(`The ${enemy.name} attacked and you took ${i} damage`)
+    hero.health -= i 
+}
+
 const attack = () => {
     if(!inBattle){
         write(`Nothing to attack!`)
     } else {
-        let i = getRandomInt(0, hero.weapon.damage)
+        let i = getRandomInt(getHeroLevel() + 0, getHeroLevel() + hero.weapon.damage)
         enemy.hp -= i
+
         if(enemy.hp > 0){
             write(`You struck the enemy and it cost him ${i}hp, he has ${enemy.hp} left!`)
+            counterAttack()
         } else {
             write(`You killed the ${enemy.name}!`)
             inBattle = false
+            // reward kill
+            hero.xp += enemy.reward * 10
+            hero.maxHealth = getHeroLevel() + 10
+            if(getRandomInt(0, 10) >= enemy.reward){
+                // found an item
+            } else {
+                if(getRandomInt(0, 1)){
+                    hero.gold += getRandomInt(0, enemy.reward)
+                    // found gold and item
+                } else {
+                    hero.gold += getRandomInt(0, enemy.reward)
+                    // found gold
+                }
+            }
         }
         
     }
