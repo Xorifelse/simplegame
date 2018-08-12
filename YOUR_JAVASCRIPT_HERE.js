@@ -205,7 +205,7 @@ const attack = () => {
             inBattle = false
             // reward kill
             hero.xp += enemy.reward * 35
-            hero.maxHealth = getHeroLevel() + 3
+            hero.maxHealth = (getHeroLevel() * 2)  + 10
             if(getRandomInt(0, 10) >= enemy.reward){
                 let e = getElm('pickup')
                 let itm = items.random()
