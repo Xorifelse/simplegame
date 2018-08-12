@@ -22,6 +22,7 @@
     <img id="inn" src="./img/inn.jpg" onclick="rest(hero)" alt="goto inn"> 
     <img id="bag" src="./img/inventory.png" onclick="equipWeapon(hero)" style="display: none"> <!-- disabled showing -->
     <img src="./img/inventory.png" onclick="toggleInventory()">
+    <img src="./img/walk.png" onclick="newEncounter()">
   </div>
 
   <div>
@@ -34,8 +35,8 @@
 
   <div>
       <h1>Battle</h1>
-      <input type='button' value='Attack' onclick="action = 'attack'">
-      <input type='button' value='Run Away' onclick="action = 'run'">
+      <input type='button' value='Attack' onclick="attack()">
+      <input type='button' value='Run Away' onclick="run()">
       <h1>Pickup</h1>
       <ul id="pickup">
         <li><img id="dagger" src="./img/dagger.jpg" onclick="pickUpItem(hero, {type: 'dagger', damage: 2, img: './img/dagger.jpg'})"> </li>

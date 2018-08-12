@@ -9,6 +9,15 @@ Array.prototype.clean = function(deleteValue) {
     return this;
 };
 
+// simple proto get random elemenet from array
+Array.prototype.random = function () {
+    return this[Math.floor((Math.random()*this.length))];
+}
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 // Write your JS here
 var hero = {
     name: '',
@@ -24,6 +33,33 @@ var hero = {
         img: './img/sword.png'
     }
 }
+
+var enemy = {
+}
+
+var items = [
+    {type: 'Wooden Sword', damage: 1, img: './img/sword.png'},
+    {type: 'Broken Iron Sword', damage: 1, img: './img/sword.png'},
+    {type: 'Iron Sword', damage: 4, img: './img/sword.png'},
+    {type: 'Steel Sword', damage: 7, img: './img/sword.png'},
+    {type: 'Bow', damage: 7, img: './img/bow.jpg'},
+    {type: 'Gold Sword', damage: 8, img: './img/sword.png'},
+    {type: 'Omega Sword', damage: 20, img: './img/sword.png'},
+]
+
+var monsters = [
+    // Name of the enemy
+    // hit points of enemy
+    // Minimal Damage
+    // Max damage
+    // Reward, value between 0 and 10 (higher reward more xp and item chance)
+    // occurance
+    { name: 'imp', hp: 6, mindmg: 1, maxdmg: 2, reward: 3 },
+    { name: 'ghoul', hp: 7, mindmg: 2, maxdmg: 4, reward: 3 },
+    { name: 'dragon', hp: 20, mindmg: 5, maxdmg: 10, reward: 8 },
+    { name: 'thief', hp: 3, mindmg: 1, maxdmg: 2, reward: 2 },
+    { name: 'orgre', hp: 30, mindmg: 0, maxdmg: 7, reward: 7 }
+]
 
 const rest = (obj) => {
     obj.health = obj.maxHealth
@@ -118,55 +154,72 @@ const write = (text) => {
     document.getElementById('dialog').innerHTML = text + '\n' + document.getElementById('dialog').innerHTML
 }
 
-var action = ''
+
+var inBattle = false
+
+const newEncounter = () => {
+    if(!inBattle){
+        inBattle = true
+        enemy = monsters.random()
+        write(`You encountered a ${enemy.name}!`)
+    } else {
+        write(`You walked away and the enemy attacked you!`)
+
+        let i = getRandomInt(enemy.mindmg, enemy.maxdmg)
+        write(`You took ${i} damage`)
+        hero.health -= i 
+    }
+}
+
+const attack = () => {
+    if(!inBattle){
+        write(`Nothing to attack!`)
+    } else {
+        let i = getRandomInt(0, hero.weapon.damage)
+        enemy.hp -= i
+        if(enemy.hp > 0){
+            write(`You struck the enemy and it cost him ${i}hp, he has ${enemy.hp} left!`)
+        } else {
+            write(`You killed the ${enemy.name}!`)
+            inBattle = false
+        }
+        
+    }
+}
+
+const run = () => {
+    if(!inBattle){
+        write(`Running for no reason`)
+    } else {
+        if(getRandomInt(0,5) < 2){
+            write('You were not fast enough and and the enemy attacked you!')
+            hero.health -= getRandomInt(enemy.mindmg, enemy.maxdmg)
+        } else {
+            write('You got away safely')
+            inBattle = false
+        }
+    }
+}
+
+
 const startGame = () => {
-    var items = [
-        {type: 'Wooden Sword', damage: 1, img: './img/sword.png'},
-        {type: 'Broken Iron Sword', damage: 1, img: './img/sword.png'},
-        {type: 'Iron Sword', damage: 4, img: './img/sword.png'},
-        {type: 'Steel Sword', damage: 7, img: './img/sword.png'},
-        {type: 'Bow', damage: 7, img: './img/bow.jpg'},
-        {type: 'Gold Sword', damage: 8, img: './img/sword.png'},
-        {type: 'Omega Sword', damage: 20, img: './img/sword.png'},
-    ]
-    var monsters = [
-        // Name of the enemy
-        // hit points of enemy
-        // Minimal Damage
-        // Max damage
-        // Reward, value between 0 and 10 (higher reward more xp and item chance)
-        // occurance
-        { name: 'imp', hp: 6, mindmg: 1, maxdmg: 2, reward: 3 },
-        { name: 'ghoul', hp: 7, mindmg: 2, maxdmg: 4, reward: 3 },
-        { name: 'dragon', hp: 20, mindmg: 5, maxdmg: 10, reward: 8 },
-        { name: 'thief', hp: 3, mindmg: 1, maxdmg: 2, reward: 2 },
-        { name: 'orgre', hp: 30, mindmg: 0, maxdmg: 7, reward: 7 }
-    ]
-    var scenario = [
-        'You walked into a forest and came accross an enemy'
-    ]
 
     // check every 250ms until the hero is dead
     var mainloop = () => {
         if(hero.health > 0){
-            if(action == 'battle'){
-
-            } else if(action == 'run'){
-
-            } else {
-                // what did you do?
-                console.log(`unkown action ${action}`)
-                return
-            }
-
+            // nothing to do
         } else {
             // Game over
             clearInterval(timer)
-            document.getElementsByTagName('body')[0].innerHTML = '<img id="gameover" src="./img/gameover.jpg"">'
+            write('You died....')
+            setInterval(() => {
+                document.getElementsByTagName('body')[0].innerHTML = '<img id="gameover" src="./img/gameover.jpg"">'
+            }, 1000)
+            
         }
     }
 
-    var timer = setInterval(mainloop, 250)
+    var timer = setInterval(mainloop, 1000)
 
 }
 
