@@ -247,7 +247,7 @@ const startGame = () => {
             clearInterval(timer)
             write('You died....')
             setInterval(() => {
-                document.getElementsByTagName('body')[0].innerHTML = '<a href="./"><img id="gameover" src="./img/gameover.jpg""></a>'
+                document.getElementsByTagName('body')[0].innerHTML = '<a href="./index.html"><img id="gameover" src="./img/gameover.jpg""></a>'
             }, 1000)
             
         }
