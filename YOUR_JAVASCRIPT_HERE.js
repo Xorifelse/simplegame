@@ -9,3 +9,15 @@ var hero = {
         damage: 2
     }
 }
+
+const rest = () => {
+
+}
+
+const pickUpItem = () => {
+
+}
+
+const equipWeapon = () => {
+    
+}
