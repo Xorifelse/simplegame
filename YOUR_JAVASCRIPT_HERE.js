@@ -34,7 +34,7 @@ const displayStats = () => {
 
     let name = document.getElementById('hero_name')
     if(hero.name.length == 0){
-        name.innerHTML = `<input type="button" onclick="hero.name = window.prompt('Enter your hero name', 'Johan')" value="Set hero Name">`
+        name.innerHTML = `<input type="button" onclick="hero.name = window.prompt('Enter your hero name', 'Johan'); displayStats()" value="Set hero Name">`
     } else {
         name.innerHTML = hero.name
     }
