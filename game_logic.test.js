@@ -4,7 +4,7 @@
 
 const { expect } = chai
 
-/*describe('Hero Object', function() {
+describe('Hero Object', function() {
   it('Declare a variable `hero` and assign it an object', function() {
     expect(sinon.match.defined.test(hero)).to.equal(true)
     expect(hero, 'hero is not an object').to.be.an('object')
@@ -104,7 +104,7 @@ describe('Picking up items', function(){
 
 
   })
-})*/
+})
 
 describe('Equip weapon', function(){
   describe('equipWeapon function takes a hero-like object as an argument', function(){
