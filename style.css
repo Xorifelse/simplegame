@@ -10,3 +10,14 @@ progress{
 ::-webkit-progress-value {
     background-color: red;
   }
+
+#inventory{
+    list-style-type: none;
+}
+#inventory > li{
+    margin-right: 2px;
+    display: inline;
+}
+#inventory > li:hover{
+    border: 1px solid;
+}
