@@ -39,6 +39,15 @@ const equipWeapon = (h) => {
     }
 }
 
+const toggleInventory = () => {
+    let e = document.getElementById('inventory')
+    if(e.style.display == 'block'){
+        e.style.display = 'none'
+    } else {
+        e.style.display = 'block'
+    }
+}
+
 const equipWeaponInventory = (item) => {
 
     // remove item from inventory
