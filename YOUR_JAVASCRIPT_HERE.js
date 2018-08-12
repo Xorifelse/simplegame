@@ -1,4 +1,4 @@
-// Simple array reorder
+// Simple array filter proto from SO.
 Array.prototype.clean = function(deleteValue) {
     for (var i = 0; i < this.length; i++) {
       if (this[i] == deleteValue) {         
@@ -16,6 +16,7 @@ var hero = {
     inventory: [],
     health: 10,
     maxHealth: 10,
+    gold: 0,
     weapon: {
         type: 'sword',
         damage: 2,
@@ -43,8 +44,10 @@ const toggleInventory = () => {
     let e = document.getElementById('inventory')
     if(e.style.display == 'block'){
         e.style.display = 'none'
+        document.getElementById('inventorytext').innerHTML = 'Inventory'
     } else {
         e.style.display = 'block'
+        document.getElementById('inventorytext').innerHTML = 'Inventory (open)'
     }
 }
 
@@ -103,7 +106,42 @@ const displayStats = () => {
     
 }
 
+const write = (text) => {
+    // new dialog text appear up top instead of appending
+    document.getElementById('dialog').innerHTML = text + '\n' + document.getElementById('dialog').innerHTML
+}
+
+const startGame = () => {
+    var items = [
+        {type: 'Sword', damage: 4, img: './img/sword.png'},
+        {type: 'Sword', damage: 4, img: './img/sword.png'},
+        {type: 'Sword', damage: 4, img: './img/sword.png'},
+        {type: 'Sword', damage: 4, img: './img/sword.png'},
+    ]
+    var monsters = [
+        // Name of the enemy
+        // hit points of enemy
+        // Minimal Damage
+        // Max damage
+        // Reward, value between 0 and 10 (higher reward more xp and item chance)
+        // occurance
+        { name: 'imp', hp: 6, mindmg: 1, maxdmg: 2, reward: 3 },
+        { name: 'ghoul', hp: 7, mindmg: 2, maxdmg: 4, reward: 3 },
+        { name: 'dragon', hp: 20, mindmg: 5, maxdmg: 10, reward: 8 },
+        { name: 'thief', hp: 3, mindmg: 1, maxdmg: 2, reward: 2 },
+        { name: 'orgre', hp: 30, mindmg: 0, maxdmg: 7, reward: 7 }
+    ]
+    var scenario = [
+    ]
+
+    write('a')
+    write('b')
+}
+
 // update every second
 setInterval(() => {
     displayStats()
-}, 500)
+}, 250)
+
+displayStats()
+startGame()

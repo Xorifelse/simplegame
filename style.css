@@ -1,6 +1,6 @@
 img {
-    height: 50px;
-    width: 50px;
+    height: 100px;
+    width: 100px;
 }
 
 progress{
@@ -20,4 +20,9 @@ progress{
 }
 #inventory > li:hover{
     border: 1px solid;
+}
+
+textarea{
+    height: 200px;
+    width: 100%;
 }
