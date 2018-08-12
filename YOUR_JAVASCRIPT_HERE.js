@@ -149,7 +149,15 @@ const startGame = () => {
     // check every 250ms until the hero is dead
     var mainloop = () => {
         if(hero.health > 0){
-            write(`You're still alive!`)
+            if(action == 'battle'){
+
+            } else if(action == 'run'){
+
+            } else {
+                // what did you do?
+                console.log(`unkown action ${action}`)
+                return
+            }
 
         } else {
             // Game over
@@ -157,7 +165,7 @@ const startGame = () => {
             document.getElementsByTagName('body')[0].innerHTML = '<img id="gameover" src="./img/gameover.jpg"">'
         }
     }
-    
+
     var timer = setInterval(mainloop, 250)
 
 }

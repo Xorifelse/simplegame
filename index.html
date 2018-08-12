@@ -34,8 +34,8 @@
 
   <div>
       <h1>Battle</h1>
-      <input type='button' value='Attack'>
-      <input type='button' value='Run Away'>
+      <input type='button' value='Attack' onclick="action = 'attack'">
+      <input type='button' value='Run Away' onclick="action = 'run'">
       <h1>Pickup</h1>
       <ul id="pickup">
         <li><img id="dagger" src="./img/dagger.jpg" onclick="pickUpItem(hero, {type: 'dagger', damage: 2, img: './img/dagger.jpg'})"> </li>
