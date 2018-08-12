@@ -9,14 +9,16 @@
 
 
   <!-- YOUR HTML HERE -->
-  <img id="inn" onclick="rest(hero)"> 
-  <img id="dagger" onclick="pickUpItem(hero, {type: 'dagger', damage: 2})"> 
-  <img id="bag" onclick="equipWeapon(hero)"> 
+  <img id="inn" src="./img/inn.jpg" onclick="rest(hero)"> 
+  <img id="dagger" src="./img/dagger.jpg" onclick="pickUpItem(hero, {type: 'dagger', damage: 2})"> 
+  <img id="bag" src="./img/inventory.png" onclick="equipWeapon(hero)">
+  <ul id="inventory">
+  </ul>
 
 
 
   <!-- I RECOMMEND YOU LEAVE THE REST UNTOUCHED -->
-  <button onclick="mocha.checkLeaks(); mocha.run();">Run the tests!</button>
+  <!--<button onclick="mocha.checkLeaks(); mocha.run();">Run the tests!</button>-->
   <div id="mocha"></div>
 
   <script src="https://unpkg.com/chai@4.1.2/chai.js"></script>
