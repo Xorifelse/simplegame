@@ -10,8 +10,9 @@ var hero = {
     }
 }
 
-const rest = () => {
-
+const rest = (obj) => {
+    obj.health = 10
+    return obj
 }
 
 const pickUpItem = () => {
@@ -19,5 +20,5 @@ const pickUpItem = () => {
 }
 
 const equipWeapon = () => {
-    
+
 }
