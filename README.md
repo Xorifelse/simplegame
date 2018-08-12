@@ -1,7 +1,3 @@
-## Section 3. CSS
-
-- Link an external stylesheet and make all the pictures the same size.
-
 ## Section 4 - Bonus: Show me what you got
 
 

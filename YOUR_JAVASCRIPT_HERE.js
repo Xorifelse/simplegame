@@ -24,3 +24,7 @@ const equipWeapon = (h) => {
         h.weapon = h.inventory[0]
     }
 }
+
+const displayStats = () => {
+    
+}
