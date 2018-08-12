@@ -18,6 +18,10 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function getElm(id){
+    return document.getElementById(id)
+}
+
 // Write your JS here
 var hero = {
     name: '',
@@ -77,7 +81,12 @@ const rest = (obj) => {
 }
 
 const pickUpItem = (h, item) => {
-    h.inventory.push(item)
+    getElm('pickup').innerHTML = ''
+    if('type' in h){ // workaround mocha
+        hero.inventory.push(h)
+    } else {
+        hero.inventory.push(item)
+    }
 }
 
 const equipWeapon = (h) => {
@@ -87,13 +96,13 @@ const equipWeapon = (h) => {
 }
 
 const toggleInventory = () => {
-    let e = document.getElementById('inventory')
+    let e = getElm('inventory')
     if(e.style.display == 'block'){
         e.style.display = 'none'
-        document.getElementById('inventorytext').innerHTML = 'Inventory'
+        getElm('inventorytext').innerHTML = 'Inventory'
     } else {
         e.style.display = 'block'
-        document.getElementById('inventorytext').innerHTML = 'Inventory (open)'
+        getElm('inventorytext').innerHTML = 'Inventory (open)'
     }
 }
 
@@ -117,7 +126,7 @@ const getHeroLevel = () => {
 }
 
 const displayStats = () => {
-    let health = document.getElementById('hero_health')
+    let health = getElm('hero_health')
     health.setAttribute('value', hero.health)
     health.setAttribute('max', hero.maxHealth)
 
@@ -126,7 +135,7 @@ const displayStats = () => {
     */
 
     // hero name
-    let name = document.getElementById('hero_name')
+    let name = getElm('hero_name')
     if(hero.name.length == 0){
         name.innerHTML = `<input type="button" onclick="hero.name = window.prompt('Enter your hero name', 'Johan'); displayStats()" value="Set hero Name">`
     } else {
@@ -134,15 +143,11 @@ const displayStats = () => {
     }
 
     // hero weapon
-    let wn = document.getElementById('hero_weapon_name')
-    let wd = document.getElementById('hero_weapon_damage')
-    wn.innerHTML = hero.weapon.type
-    wd.innerHTML = `+${hero.weapon.damage}`
-
-    //document.getElementById('hero_level').innerHTML = hero.level
+    let wn = getElm('hero_weapon_name').innerHTML = hero.weapon.type
+    let wd = getElm('hero_weapon_damage').innerHTML = hero.weapon.damage + ' + ' + getHeroLevel()
 
     // hero level
-    document.getElementById('hero_level').innerHTML = getHeroLevel()
+    getElm('hero_level').innerHTML = getHeroLevel()
 
     /*
         Update inventory
@@ -151,7 +156,7 @@ const displayStats = () => {
     // update list of intenvory
     // Feeling lazy, not the properway to do it.
     var tmp = ''
-    let inv = document.getElementById('inventory')
+    let inv = getElm('inventory')
     for(let item of hero.inventory){
         tmp += `<li><img src="${item.img}" alt="${item.type}" data-damage="${item.damage}" onclick="equipWeaponInventory({type: '${item.type}', damage: ${item.damage}, img: '${item.img}'})"></li>`
     }
@@ -161,23 +166,21 @@ const displayStats = () => {
 
 const write = (text) => {
     // new dialog text appear up top instead of appending
-    document.getElementById('dialog').innerHTML = text + '\n' + document.getElementById('dialog').innerHTML
+    getElm('dialog').innerHTML = text + '\n' + getElm('dialog').innerHTML
 }
 
 
 var inBattle = false
 
 const newEncounter = () => {
+    getElm('pickup').innerHTML = ''
     if(!inBattle){
         inBattle = true
         enemy = monsters.random()
         write(`You encountered a ${enemy.name}! What will you do?`)
     } else {
         write(`You walked away and the enemy attacked you!`)
-
-        let i = getRandomInt(enemy.mindmg, enemy.maxdmg)
-        write(`You took ${i} damage`)
-        hero.health -= i 
+        counterAttack()
     }
 }
 
@@ -201,17 +204,17 @@ const attack = () => {
             write(`You killed the ${enemy.name}!`)
             inBattle = false
             // reward kill
-            hero.xp += enemy.reward * 10
-            hero.maxHealth = getHeroLevel() + 10
+            hero.xp += enemy.reward * 35
+            hero.maxHealth = (getHeroLevel() * 2)  + 10
             if(getRandomInt(0, 10) >= enemy.reward){
-                // found an item
+                let e = getElm('pickup')
+                let itm = items.random()
+                e.innerHTML += `<li>${itm.type}</li><li><img src="${itm.img}" alt="${itm.type}" data-damage="${itm.damage}" onclick="pickUpItem({type: '${itm.type}', damage: ${itm.damage}, img: '${itm.img}'})"></li>`
             } else {
                 if(getRandomInt(0, 1)){
-                    hero.gold += getRandomInt(0, enemy.reward)
-                    // found gold and item
+                    hero.gold += getRandomInt(0, enemy.reward * 2)
                 } else {
                     hero.gold += getRandomInt(0, enemy.reward)
-                    // found gold
                 }
             }
         }
@@ -225,10 +228,11 @@ const run = () => {
     } else {
         if(getRandomInt(0,5) < 2){
             write('You were not fast enough and and the enemy attacked you!')
-            hero.health -= getRandomInt(enemy.mindmg, enemy.maxdmg)
+            counterAttack()
         } else {
             write('You got away safely')
             inBattle = false
+            getElm('pickup').innerHTML = ''
         }
     }
 }
@@ -245,7 +249,7 @@ const startGame = () => {
             clearInterval(timer)
             write('You died....')
             setInterval(() => {
-                document.getElementsByTagName('body')[0].innerHTML = '<img id="gameover" src="./img/gameover.jpg"">'
+                document.getElementsByTagName('body')[0].innerHTML = '<a href="./index.html"><img id="gameover" src="./img/gameover.jpg""></a>'
             }, 1000)
             
         }
