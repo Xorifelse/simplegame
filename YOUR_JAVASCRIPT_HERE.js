@@ -15,10 +15,12 @@ const rest = (obj) => {
     return obj
 }
 
-const pickUpItem = (hero, item) => {
-    hero.inventory.push(item)
+const pickUpItem = (h, item) => {
+    h.inventory.push(item)
 }
 
-const equipWeapon = () => {
-
+const equipWeapon = (h) => {
+    if(h.inventory.length > 0){
+        h.weapon = h.inventory[0]
+    }
 }
