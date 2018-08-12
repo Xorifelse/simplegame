@@ -26,7 +26,10 @@ var hero = {
 
 const rest = (obj) => {
     obj.health = obj.maxHealth
-    alert('You restored your HP')
+    if(typeof obj =='undefined'){ // workaround on mocha dependancy
+        hero.health = hero.maxHealth
+    }
+    write(`You've restored your HP to ${hero.maxHealth}`)
     return obj
 }
 
@@ -89,6 +92,9 @@ const displayStats = () => {
     wn.innerHTML = hero.weapon.type
     wd.innerHTML = `+${hero.weapon.damage}`
 
+    // hero level
+
+
     /*
         Update inventory
     */
@@ -111,12 +117,16 @@ const write = (text) => {
     document.getElementById('dialog').innerHTML = text + '\n' + document.getElementById('dialog').innerHTML
 }
 
+var action = ''
 const startGame = () => {
     var items = [
-        {type: 'Sword', damage: 4, img: './img/sword.png'},
-        {type: 'Sword', damage: 4, img: './img/sword.png'},
-        {type: 'Sword', damage: 4, img: './img/sword.png'},
-        {type: 'Sword', damage: 4, img: './img/sword.png'},
+        {type: 'Wooden Sword', damage: 1, img: './img/sword.png'},
+        {type: 'Broken Iron Sword', damage: 1, img: './img/sword.png'},
+        {type: 'Iron Sword', damage: 4, img: './img/sword.png'},
+        {type: 'Steel Sword', damage: 7, img: './img/sword.png'},
+        {type: 'Bow', damage: 7, img: './img/bow.jpg'},
+        {type: 'Gold Sword', damage: 8, img: './img/sword.png'},
+        {type: 'Omega Sword', damage: 20, img: './img/sword.png'},
     ]
     var monsters = [
         // Name of the enemy
